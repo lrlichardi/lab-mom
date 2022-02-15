@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { Form, Row, Table, Modal, Button } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { Form, Row, Modal, Button, Alert } from "react-bootstrap";
 import "../css/Patient.css";
 import PatientEdit from "./PatientEdit";
+import TableAnalysis from "./analisysComponent/TableAnalysis";
 
 export default function Patient() {
   const { id } = useParams();
   const [patient, setPatient] = useState();
+  const [allAnalysis , setAllAnalysis] = useState();
   // Manejadores del modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [alertSuccess, setAlertSuccess] = useState();
 
   useEffect(() => {
     getOnePatient();
@@ -20,12 +23,13 @@ export default function Patient() {
   const getOnePatient = async () => {
     try {
       const { data } = await axios.get(`/patients/${id}`);
-      setPatient(data);
+      setPatient(data.patient);
+      setAllAnalysis(data.analysis);
     } catch (error) {
       console.log(error);
     }
   };
-
+  const fecha = new Date();
   return (
     <div>
       <div>
@@ -34,19 +38,16 @@ export default function Patient() {
             <Modal.Title>Editar Paciente</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <PatientEdit patient={patient} />
+            <PatientEdit
+              patient={patient}
+              setPatient={setPatient}
+              handleClose={handleClose}
+              setAlertSuccess={setAlertSuccess}
+            />
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Cerrar
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Guardar Cambios
-            </Button>
-          </Modal.Footer>
         </Modal>
       </div>
-
+      {alertSuccess && <Alert variant="success">{alertSuccess}</Alert>}
       <h1>
         PACIENTE: {patient?.lastName} {patient?.name}
       </h1>
@@ -72,10 +73,10 @@ export default function Patient() {
               className="mb-3"
               controlId="formPlaintextEmail"
             >
-              <Form.Label column sm="6">
+              <Form.Label column sm="5">
                 DOMICILIO:
               </Form.Label>
-              <Form.Label column sm="2">
+              <Form.Label column sm="6">
                 {patient?.adress}
               </Form.Label>
             </Form.Group>
@@ -127,40 +128,49 @@ export default function Patient() {
               className="mb-3"
               controlId="formPlaintextEmail"
             >
-              <Form.Label column sm="5">
+              <Form.Label column sm="2" className="ms-5">
                 EDAD:
               </Form.Label>
-              <Form.Label column sm="2">
-                {patient?.edad}
+              <Form.Label column sm="4">
+                {fecha.getFullYear() - patient?.nac.substr(0, 4)}
+              </Form.Label>
+            </Form.Group>
+
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintextEmail"
+            >
+              <Form.Label column sm="2" className="ms-5">
+                SEXO:
+              </Form.Label>
+              <Form.Label column >
+                {patient?.sex}
               </Form.Label>
             </Form.Group>
           </Form>
         </div>
-        <Button variant="primary" onClick={handleShow} className="h-50 my-auto">
-          Editar Datos
-        </Button>
+        <div className="d-flex flex-column">
+          <Button
+            variant="primary"
+            onClick={handleShow}
+            className="h-25 my-auto"
+          >
+            Editar Datos
+          </Button>
+          <Link
+            to={`/patients/${patient?._id}/analisys/newAnalysis`}
+            className="h-25 my-auto btn btn-success"
+          >
+            Nuevo Analisis
+          </Link>
+        </div>
       </div>
       <div>
-        <h1 className="mt-2">Analisis</h1>
+        <h1 className="mt-4">Analisis</h1>
+
         <div>
-          <Table striped bordered hover size="sm" variant="dark">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-            </tbody>
-          </Table>
+          <TableAnalysis allAnalysis={allAnalysis}/>
         </div>
       </div>
     </div>

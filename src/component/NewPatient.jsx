@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
@@ -6,7 +7,8 @@ import axios from "axios";
 export default function NewPatient() {
   const [input, setInput] = useState();
   const [alert, setAlert] = useState();
-  const [alertSuccess, setAlertSuccess] = useState();
+
+  let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,13 +16,11 @@ export default function NewPatient() {
     try {
       await axios.post("/patients", input);
       form.reset();
-      setAlertSuccess("Paciente Guardado Correctamente!");
+      history.push("/patients");
     } catch (error) {
-      setAlert(error.response.data.msg);
+      console.log(error)
+      setAlert(error?.response.data?.msg);
     }
-    setTimeout(() => {
-      setAlertSuccess("");
-    }, 5000);
     setTimeout(() => {
       setAlert("");
     }, 5000);
@@ -35,7 +35,6 @@ export default function NewPatient() {
   return (
     <div className="mt-3 mb-5 d-flex flex-column align-items-center">
       {alert && <Alert variant="danger">{alert}</Alert>}
-      {alertSuccess && <Alert variant="success">{alertSuccess}</Alert>}
       <h1>Nuevo Paciente</h1>
       <div className="w-50 mt-2">
         <Form onSubmit={handleSubmit}>
@@ -171,6 +170,12 @@ export default function NewPatient() {
             </Col>
           </Form.Group>
 
+          <Row className="mb-3">
+          <Form.Group
+            as={Col}
+            className=""
+            controlId="formPlaintextPassword"
+          >
           <Form.Select
             className="mb-4"
             required
@@ -183,6 +188,26 @@ export default function NewPatient() {
             <option value="Galeno">Galeno</option>
             <option value="Subsidio">Subsidio</option>
           </Form.Select>
+          </Form.Group>
+
+          <Form.Group
+            as={Col}
+            className=""
+            controlId="formPlaintextPassword"
+          >
+          <Form.Select
+            className="mb-4"
+            required
+            name="sex"
+            aria-label="sex"
+            onChange={(e) => handleChange(e)}
+          >
+            <option value="N/A">Sexo</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+          </Form.Select>
+          </Form.Group>
+          </Row>
 
           <Button variant="primary" type="submit">
             Agregar Paciente

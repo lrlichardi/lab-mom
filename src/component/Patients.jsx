@@ -43,8 +43,9 @@ export default function Patients() {
   const deletePatient = async (id , lastName) => {
     if (window.confirm(`Estas seguro que deseas eliminar a ${lastName}?`)){
          await axios.delete(`/patients/${id}`);
+         getPatient();
     }
-    getPatient();
+   
   };
 
   return (
@@ -53,7 +54,7 @@ export default function Patients() {
         <h1>PACIENTES</h1>
         <Form onSubmit={(e) => handleSubmit(e)} className="w-50">
           <FormControl
-            placeholder="Busca Paciente Por Documento"
+            placeholder="Busca Paciente Por Documento o Apellido"
             aria-label="Busca Paciente"
             aria-describedby="basic-addon1"
             className="mt-2 find"
@@ -73,6 +74,7 @@ export default function Patients() {
               <th>Nombre</th>
               <th>Celular</th>
               <th>Obra social</th>
+              <th>Direccion</th>
               <th>Funciones</th>
             </tr>
           </thead>
@@ -84,6 +86,7 @@ export default function Patients() {
                 <td>{p.name}</td>
                 <td>{p.phoneNumber}</td>
                 <td>{p.obraSocial}</td>
+                <td>{p.adress}</td>
                 <td>
                   <Link className="btn btn-primary" to={`/patients/${p._id}`}>
                     Ver mas

@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 import axios from "axios";
 
-export default function PatientEdit({ patient }) {
+export default function PatientEdit({ patient , setPatient , handleClose , setAlertSuccess}) {
   const [input, setInput] = useState(patient);
   const [alert, setAlert] = useState();
-  const [alertSuccess, setAlertSuccess] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const form = e.currentTarget;
+    const form = e.currentTarget;
     try {
       await axios.put(`/patients/${patient._id}`, input);
-    //   form.reset();
-    //   setAlertSuccess("Paciente Guardado Correctamente!");
+      form.reset();
+      setPatient(input)
+      setAlertSuccess('Pacient Editado correctamente!')
+      handleClose()
     } catch (error) {
       setAlert(error.response.data.msg);
     }
@@ -27,17 +28,15 @@ export default function PatientEdit({ patient }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const inputs = { ...input, [name]: value.toUpperCase() };
+    const inputs = {...input, [name]: value.toUpperCase() };
     setInput(inputs);
   };
-  console.log(input);
 
   return (
-    <div className="mb-5 d-flex flex-column ">
+    <div className="mb-2 d-flex flex-column ">
       {alert && <Alert variant="danger">{alert}</Alert>}
-      {alertSuccess && <Alert variant="success">{alertSuccess}</Alert>}
       <div className="">
-        <Form onSubmit={handleSubmit}>
+        <Form  onSubmit={handleSubmit}>
           <Form.Group
             as={Row}
             className="mb-3"
@@ -83,7 +82,7 @@ export default function PatientEdit({ patient }) {
             className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" >
               Nombre
             </Form.Label>
             <Col sm="10">
@@ -103,7 +102,7 @@ export default function PatientEdit({ patient }) {
             className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" >
               Celular
             </Form.Label>
             <Col sm="10">
@@ -120,11 +119,10 @@ export default function PatientEdit({ patient }) {
 
           <Form.Group
             as={Row}
-            className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
-              N Obra Social
+            <Form.Label column sm="2" className='pt-0'>
+              N° Obra Social
             </Form.Label>
             <Col sm="10">
               <Form.Control
@@ -140,10 +138,9 @@ export default function PatientEdit({ patient }) {
 
           <Form.Group
             as={Row}
-            className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" className='pt-0'>
               Fecha de Nac.
             </Form.Label>
             <Col sm="10">
@@ -191,10 +188,16 @@ export default function PatientEdit({ patient }) {
             <option value="Galeno">Galeno</option>
             <option value="Subsidio">Subsidio</option>
           </Form.Select>
-
-          <Button variant="primary" type="submit">
-            Agregar Paciente
+          <hr  />
+          <div className='d-flex justify-content-end'>
+          <Button variant="secondary" onClick={handleClose} className='me-2'>
+            Cerrar
           </Button>
+          <Button variant="primary" type="submit">
+            Aplicar Cambios
+          </Button>
+          </div>
+          
         </Form>
       </div>
     </div>

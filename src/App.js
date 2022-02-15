@@ -1,8 +1,8 @@
 import NavBar from './component/NavBar';
 import NewPatient from './component/NewPatient';
-import Index from './component/Index'; 
 import Patients from './component/Patients';
 import Patient from './component/Patient';
+import Analisys from './component/Analisys';
 import './App.css';
 import { BrowserRouter as Router, Route ,Switch } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,7 +13,6 @@ function App() {
         <Router>
           <NavBar/>
           <Switch>
-          
             <Route exact path='/patients'>
               <Patients/>
             </Route>
@@ -23,11 +22,11 @@ function App() {
             <Route exact path='/patients/:id'>
               <Patient/>
             </Route>
-           
-
+            <Route exact path='/patients/:id/analisys/newAnalysis'>
+              <Analisys/>
+            </Route>
             <Router exact path='/'>
-            <Index/>
-            
+            <Patients/>
             </Router>
             
           </Switch>
