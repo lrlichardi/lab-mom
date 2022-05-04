@@ -1,0 +1,11 @@
+.max-content{
+    width: max-content;
+
+}
+tr , th , td ,thead{
+    border: solid 1px black;
+}
+
+td{
+    padding: 3px;
+}

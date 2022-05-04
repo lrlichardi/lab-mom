@@ -14,7 +14,7 @@ export default function Hemoglobina({
     const inputs = { ...input, [name]: value };
     setInput(inputs);
   };
-
+console.log(input)
   const handleSubmit = (e) => {
     e.preventDefault();
     const hemoglobina = { hemoglobina: input };
@@ -115,6 +115,7 @@ export default function Hemoglobina({
                   name="neutrofilosSegmentados"
                   type="number"
                   placeholder="Neutrófilos segmentados:"
+                  onChange={(e) => handleChange(e)}
                 />
               </FloatingLabel>
 
@@ -209,7 +210,7 @@ export default function Hemoglobina({
                 className="mb-3"
               >
                 <Form.Control
-                  name="1hs"
+                  name="onehs"
                   type="number"
                   placeholder="1 Hora:"
                   onChange={(e) => handleChange(e)}
@@ -222,7 +223,7 @@ export default function Hemoglobina({
                 className="mb-3"
               >
                 <Form.Control
-                  name="2hs"
+                  name="twohs"
                   type="number"
                   placeholder="2 Hora:"
                   onChange={(e) => handleChange(e)}

@@ -1,42 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
-import axios from "axios";
+import { useState } from "react";
+import { post } from "../../services/apiService";
 
-export default function PatientEdit({ patient , setPatient , handleClose , setAlertSuccess}) {
-  const [input, setInput] = useState(patient);
+export default function NewPatient() {
+  const [input, setInput] = useState();
   const [alert, setAlert] = useState();
+
+  let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     try {
-      await axios.put(`/patients/${patient._id}`, input);
+      const { error } = await post("/patients", input);
+
+        if(error){
+        return setAlert(error.response.data.msg);
+      }
+
       form.reset();
-      setPatient(input)
-      setAlertSuccess('Pacient Editado correctamente!')
-      handleClose()
+      history.push("/patients");
+
     } catch (error) {
-      setAlert(error.response.data.msg);
+      setAlert(error?.response.data?.msg);
     }
-    setTimeout(() => {
-      setAlertSuccess("");
-    }, 5000);
+
     setTimeout(() => {
       setAlert("");
     }, 5000);
-  };
 
+  };
+ console.log(input)
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const inputs = {...input, [name]: value.toUpperCase() };
+    const inputs = { ...input, [name]: value.toUpperCase() };
     setInput(inputs);
   };
 
   return (
-    <div className="mb-2 d-flex flex-column ">
+    <div className="mt-3 mb-5 d-flex flex-column align-items-center">
       {alert && <Alert variant="danger">{alert}</Alert>}
-      <div className="">
-        <Form  onSubmit={handleSubmit}>
+      <h1>Nuevo Paciente</h1>
+      <div className="w-50 mt-2">
+        <Form onSubmit={handleSubmit}>
           <Form.Group
             as={Row}
             className="mb-3"
@@ -48,7 +56,6 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
             <Col sm="10">
               <Form.Control
                 required
-                defaultValue={patient.dni}
                 type="number"
                 name="dni"
                 placeholder="Documento"
@@ -68,7 +75,6 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
             <Col sm="10">
               <Form.Control
                 required
-                defaultValue={patient.lastName}
                 type="text"
                 name="lastName"
                 placeholder="Apellido"
@@ -82,13 +88,12 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
             className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2" >
+            <Form.Label column sm="2">
               Nombre
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 required
-                defaultValue={patient.name}
                 type="text"
                 name="name"
                 placeholder="Nombre"
@@ -102,13 +107,12 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
             className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2" >
+            <Form.Label column sm="2">
               Celular
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 required
-                defaultValue={patient.phoneNumber}
                 type="number"
                 name="phoneNumber"
                 placeholder="Celular"
@@ -119,15 +123,15 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
 
           <Form.Group
             as={Row}
+            className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2" className='pt-0'>
+            <Form.Label column sm="2">
               N° Obra Social
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 required
-                defaultValue={patient.numberSocial}
                 type="number"
                 name="numberSocial"
                 placeholder="xxx-xxx"
@@ -138,15 +142,15 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
 
           <Form.Group
             as={Row}
+            className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2" className='pt-0'>
+            <Form.Label column sm="2">
               Fecha de Nac.
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 required
-                defaultValue={patient.nac}
                 type="date"
                 name="nac"
                 onChange={(e) => handleChange(e)}
@@ -165,7 +169,6 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
             <Col sm="10">
               <Form.Control
                 required
-                defaultValue={patient.adress}
                 type="text"
                 name="adress"
                 placeholder="Domicilio"
@@ -174,6 +177,12 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
             </Col>
           </Form.Group>
 
+          <Row className="mb-3">
+          <Form.Group
+            as={Col}
+            className=""
+            controlId="formPlaintextPassword"
+          >
           <Form.Select
             className="mb-4"
             required
@@ -181,23 +190,35 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
             aria-label="Obra Social"
             onChange={(e) => handleChange(e)}
           >
-            <option defaultValue={patient.obraSocial}>
-              {patient.obraSocial}
-            </option>
+            <option value="N/A">Obra Social</option>
             <option value="Boreal">Boreal</option>
             <option value="Galeno">Galeno</option>
             <option value="Subsidio">Subsidio</option>
           </Form.Select>
-          <hr  />
-          <div className='d-flex justify-content-end'>
-          <Button variant="secondary" onClick={handleClose} className='me-2'>
-            Cerrar
-          </Button>
+          </Form.Group>
+
+          <Form.Group
+            as={Col}
+            className=""
+            controlId="formPlaintextPassword"
+          >
+          <Form.Select
+            className="mb-4"
+            required
+            name="sex"
+            aria-label="sex"
+            onChange={(e) => handleChange(e)}
+          >
+            <option value="N/A">Sexo</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+          </Form.Select>
+          </Form.Group>
+          </Row>
+
           <Button variant="primary" type="submit">
-            Aplicar Cambios
+            Agregar Paciente
           </Button>
-          </div>
-          
         </Form>
       </div>
     </div>

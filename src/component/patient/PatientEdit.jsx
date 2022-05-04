@@ -1,26 +1,31 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
-import { useState } from "react";
-import axios from "axios";
+import { put } from '../../services/apiService'
 
-export default function NewPatient() {
-  const [input, setInput] = useState();
+export default function PatientEdit({ patient , setPatient , handleClose , setAlertSuccess}) {
+  const [input, setInput] = useState(patient);
   const [alert, setAlert] = useState();
-
-  let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const form = e.currentTarget;
+
     try {
-      await axios.post("/patients", input);
+      await put(`/patients/${patient._id}`, input);
       form.reset();
-      history.push("/patients");
+
+      setPatient(input)
+      setAlertSuccess('Paciente Editado correctamente!')
+      handleClose()
+
     } catch (error) {
-      console.log(error)
-      setAlert(error?.response.data?.msg);
+      setAlert(error.response.data.msg);
     }
+    setTimeout(() => {
+      setAlertSuccess("");
+    }, 5000);
+    
     setTimeout(() => {
       setAlert("");
     }, 5000);
@@ -28,16 +33,15 @@ export default function NewPatient() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const inputs = { ...input, [name]: value.toUpperCase() };
+    const inputs = {...input, [name]: value.toUpperCase() };
     setInput(inputs);
   };
 
   return (
-    <div className="mt-3 mb-5 d-flex flex-column align-items-center">
+    <div className="mb-2 d-flex flex-column ">
       {alert && <Alert variant="danger">{alert}</Alert>}
-      <h1>Nuevo Paciente</h1>
-      <div className="w-50 mt-2">
-        <Form onSubmit={handleSubmit}>
+      <div className="">
+        <Form  onSubmit={handleSubmit}>
           <Form.Group
             as={Row}
             className="mb-3"
@@ -49,6 +53,7 @@ export default function NewPatient() {
             <Col sm="10">
               <Form.Control
                 required
+                defaultValue={patient.dni}
                 type="number"
                 name="dni"
                 placeholder="Documento"
@@ -68,6 +73,7 @@ export default function NewPatient() {
             <Col sm="10">
               <Form.Control
                 required
+                defaultValue={patient.lastName}
                 type="text"
                 name="lastName"
                 placeholder="Apellido"
@@ -81,12 +87,13 @@ export default function NewPatient() {
             className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" >
               Nombre
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 required
+                defaultValue={patient.name}
                 type="text"
                 name="name"
                 placeholder="Nombre"
@@ -100,12 +107,13 @@ export default function NewPatient() {
             className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" >
               Celular
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 required
+                defaultValue={patient.phoneNumber}
                 type="number"
                 name="phoneNumber"
                 placeholder="Celular"
@@ -116,15 +124,15 @@ export default function NewPatient() {
 
           <Form.Group
             as={Row}
-            className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
-              N Obra Social
+            <Form.Label column sm="2" className='pt-0'>
+              N° Obra Social
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 required
+                defaultValue={patient.numberSocial}
                 type="number"
                 name="numberSocial"
                 placeholder="xxx-xxx"
@@ -135,15 +143,15 @@ export default function NewPatient() {
 
           <Form.Group
             as={Row}
-            className="mb-3"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" className='pt-0'>
               Fecha de Nac.
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 required
+                defaultValue={patient.nac}
                 type="date"
                 name="nac"
                 onChange={(e) => handleChange(e)}
@@ -162,6 +170,7 @@ export default function NewPatient() {
             <Col sm="10">
               <Form.Control
                 required
+                defaultValue={patient.adress}
                 type="text"
                 name="adress"
                 placeholder="Domicilio"
@@ -170,12 +179,6 @@ export default function NewPatient() {
             </Col>
           </Form.Group>
 
-          <Row className="mb-3">
-          <Form.Group
-            as={Col}
-            className=""
-            controlId="formPlaintextPassword"
-          >
           <Form.Select
             className="mb-4"
             required
@@ -183,35 +186,23 @@ export default function NewPatient() {
             aria-label="Obra Social"
             onChange={(e) => handleChange(e)}
           >
-            <option value="N/A">Obra Social</option>
+            <option defaultValue={patient.obraSocial}>
+              {patient.obraSocial}
+            </option>
             <option value="Boreal">Boreal</option>
             <option value="Galeno">Galeno</option>
             <option value="Subsidio">Subsidio</option>
           </Form.Select>
-          </Form.Group>
-
-          <Form.Group
-            as={Col}
-            className=""
-            controlId="formPlaintextPassword"
-          >
-          <Form.Select
-            className="mb-4"
-            required
-            name="sex"
-            aria-label="sex"
-            onChange={(e) => handleChange(e)}
-          >
-            <option value="N/A">Sexo</option>
-            <option value="masculino">Masculino</option>
-            <option value="femenino">Femenino</option>
-          </Form.Select>
-          </Form.Group>
-          </Row>
-
-          <Button variant="primary" type="submit">
-            Agregar Paciente
+          <hr  />
+          <div className='d-flex justify-content-end'>
+          <Button variant="secondary" onClick={handleClose} className='me-2'>
+            Cerrar
           </Button>
+          <Button variant="primary" type="submit">
+            Aplicar Cambios
+          </Button>
+          </div>
+          
         </Form>
       </div>
     </div>

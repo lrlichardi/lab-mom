@@ -18,18 +18,24 @@ export default function Quimica({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const quimica = { quimica: input };
+
     if (Object.keys(input).length >= 1) {
+      
       setAnalysisState((old) => [...old, quimica]);
       setAlertSuccess("Quimica Creada Exitosamente");
       setSelect("");
+
       setTimeout(() => {
         setAlertSuccess("");
       }, 5000);
+
     } else {
       window.alert("Estan Vacios Todos Los Campos");
     }
   };
+
   return (
     <div className="border border-dark mt-3">
       <h1 className="title border border-dark ">Quimica</h1>

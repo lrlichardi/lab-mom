@@ -29,9 +29,12 @@ export default function Orina({
       window.alert("Estan Vacios Todos Los Campos");
     }
   };
+
+  console.log(input);
+
   return (
-    <div className='border border-dark mt-3'>
-      <h1 className='title border border-dark'>Orina</h1>
+    <div className="border border-dark mt-3">
+      <h1 className="title border border-dark">Orina</h1>
       <div className="ms-3 p-2 border mb-2">
         <Form onSubmit={handleSubmit}>
           <Row className="d-flex justify-content-around flex-wrap">
@@ -114,10 +117,15 @@ export default function Orina({
               <FloatingLabel
                 controlId="floatingSelectGrid"
                 label="Proteinas"
-                name='proteinas'
-                className='mb-3'
+                name="proteinas"
+                className="mb-3"
+                onChange={(e) => handleChange(e)}
               >
-                <Form.Select aria-label="Floating label select example">
+                <Form.Select
+                  aria-label="Floating label select example"
+                  name="proteinas"
+                >
+                  <option>Elegir una opcion</option>
                   <option value="No Contiene">No Contiene</option>
                   <option value="Contiene Traza">Contiene Traza</option>
                   <option value="Contiene +">Contiene +</option>
@@ -125,17 +133,21 @@ export default function Orina({
                   <option value="Contiene +++">Contiene +++</option>
                   <option value="Contiene ++++">Contiene ++++</option>
                   <option value="normal">Normal</option>
-
                 </Form.Select>
               </FloatingLabel>
 
               <FloatingLabel
                 controlId="floatingSelectGrid"
                 label="Glucosa"
-                name='glucosa'
-                className='mb-3'
+                name="glucosa"
+                className="mb-3"
+                onChange={(e) => handleChange(e)}
               >
-                <Form.Select aria-label="Floating label select example">
+                <Form.Select
+                  aria-label="Floating label select example"
+                  name="glucosa"
+                >
+                  <option>Elegir una opcion</option>
                   <option value="No Contiene">No Contiene</option>
                   <option value="Contiene Traza">Contiene Traza</option>
                   <option value="Contiene +">Contiene +</option>
@@ -143,17 +155,21 @@ export default function Orina({
                   <option value="Contiene +++">Contiene +++</option>
                   <option value="Contiene ++++">Contiene ++++</option>
                   <option value="normal">Normal</option>
-
                 </Form.Select>
               </FloatingLabel>
 
               <FloatingLabel
                 controlId="floatingSelectGrid"
                 label="Cuerpos Cetonicos"
-                name='cuerposCetonicos'
-                className='mb-3'
+                name="cuerposCetonicos"
+                className="mb-3"
+                onChange={(e) => handleChange(e)}
               >
-                <Form.Select aria-label="Floating label select example">
+                <Form.Select
+                  aria-label="Floating label select example"
+                  name="cuerposCetonicos"
+                >
+                  <option>Elegir una opcion</option>
                   <option value="No Contiene">No Contiene</option>
                   <option value="Contiene Traza">Contiene Traza</option>
                   <option value="Contiene +">Contiene +</option>
@@ -164,14 +180,18 @@ export default function Orina({
                 </Form.Select>
               </FloatingLabel>
 
-
               <FloatingLabel
                 controlId="floatingSelectGrid"
                 label="Sales Biliares"
-                name='salesBiliares'
-                className='mb-3'
+                name="salesBiliares"
+                className="mb-3"
+                onChange={(e) => handleChange(e)}
               >
-                <Form.Select aria-label="Floating label select example">
+                <Form.Select
+                  aria-label="Floating label select example"
+                  name="salesBiliares"
+                >
+                  <option>Elegir una opcion</option>
                   <option value="No Contiene">No Contiene</option>
                   <option value="Contiene Traza">Contiene Traza</option>
                   <option value="Contiene +">Contiene +</option>
@@ -179,17 +199,21 @@ export default function Orina({
                   <option value="Contiene +++">Contiene +++</option>
                   <option value="Contiene ++++">Contiene ++++</option>
                   <option value="normal">Normal</option>
-
                 </Form.Select>
               </FloatingLabel>
 
               <FloatingLabel
                 controlId="floatingSelectGrid"
                 label="Pigmiento Biliares"
-                name='pigmientoBiliares'
-                className='mb-3'
+                name="pigmientoBiliares"
+                className="mb-3"
+                onChange={(e) => handleChange(e)}
               >
-                <Form.Select aria-label="Floating label select example">
+                <Form.Select
+                  aria-label="Floating label select example"
+                  name="pigmientoBiliares"
+                >
+                  <option>Elegir una opcion</option>
                   <option value="No Contiene">No Contiene</option>
                   <option value="Contiene Traza">Contiene Traza</option>
                   <option value="Contiene +">Contiene +</option>
@@ -197,17 +221,21 @@ export default function Orina({
                   <option value="Contiene +++">Contiene +++</option>
                   <option value="Contiene ++++">Contiene ++++</option>
                   <option value="normal">Normal</option>
-
                 </Form.Select>
               </FloatingLabel>
 
               <FloatingLabel
                 controlId="floatingSelectGrid"
                 label="Urobilina"
-                name='urobilina'
-                className='mb-3'
+                name="urobilina"
+                className="mb-3"
+                onChange={(e) => handleChange(e)}
               >
-                <Form.Select aria-label="Floating label select example">
+                <Form.Select
+                  aria-label="Floating label select example"
+                  name="urobilina"
+                >
+                  <option>Elegir una opcion</option>
                   <option value="normal">Normal</option>
                   <option value="Contiene Traza">Contiene Traza</option>
                   <option value="Contiene +">Contiene +</option>
@@ -215,17 +243,21 @@ export default function Orina({
                   <option value="Contiene +++">Contiene +++</option>
                   <option value="Contiene ++++">Contiene ++++</option>
                   <option value="No Contiene">No Contiene</option>
-
                 </Form.Select>
               </FloatingLabel>
 
               <FloatingLabel
                 controlId="floatingSelectGrid"
                 label="Hemoglobina"
-                name='hemoglobina'
-                className='mb-3'
+                name="hemoglobina"
+                className="mb-3"
+                onChange={(e) => handleChange(e)}
               >
-                <Form.Select aria-label="Floating label select example">
+                <Form.Select
+                  aria-label="Floating label select example"
+                  name="hemoglobina"
+                >
+                  <option>Elegir una opcion</option>
                   <option value="No Contiene">No Contiene</option>
                   <option value="Contiene Traza">Contiene Traza</option>
                   <option value="Contiene +">Contiene +</option>
@@ -233,11 +265,8 @@ export default function Orina({
                   <option value="Contiene +++">Contiene +++</option>
                   <option value="Contiene ++++">Contiene ++++</option>
                   <option value="normal">Normal</option>
-
                 </Form.Select>
               </FloatingLabel>
-
-              
             </Col>
 
             <Col xs={2} className="border border-dark contentHemo">
