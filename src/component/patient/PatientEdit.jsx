@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 import { put } from '../../services/apiService'
+import {getSocialWork} from '../../socialWork/functionSocialWork';
 
 export default function PatientEdit({ patient , setPatient , handleClose , setAlertSuccess}) {
   const [input, setInput] = useState(patient);
   const [alert, setAlert] = useState();
+  const [socialWork , setSocialWork] = useState();
 
+  useEffect(() => {
+    getAllSocialWork();
+    
+  }, [])
+  
+  const getAllSocialWork = async () => {
+    const data = await getSocialWork()
+    const newData = data?.filter((data) => data.obrasocial !== patient.obraSocial)
+    setSocialWork(newData)
+  }
+
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -24,11 +38,9 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
     }
     setTimeout(() => {
       setAlertSuccess("");
-    }, 5000);
-    
-    setTimeout(() => {
       setAlert("");
     }, 5000);
+    
   };
 
   const handleChange = (e) => {
@@ -189,9 +201,9 @@ export default function PatientEdit({ patient , setPatient , handleClose , setAl
             <option defaultValue={patient.obraSocial}>
               {patient.obraSocial}
             </option>
-            <option value="Boreal">Boreal</option>
-            <option value="Galeno">Galeno</option>
-            <option value="Subsidio">Subsidio</option>
+            { socialWork?.map((data) => (
+              <option value={data.obrasocial}>{data.obrasocial}</option>
+            )) }
           </Form.Select>
           <hr  />
           <div className='d-flex justify-content-end'>

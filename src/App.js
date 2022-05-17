@@ -3,11 +3,15 @@ import NewPatient from "./component/patient/NewPatient";
 import Patients from "./component/patient/Patients";
 import Patient from "./component/patient/Patient";
 import Analysis from "./component/Analysis";
+import AnalyisisEdit from "./component/analysisComponent/AnalyisisEdit";
+import AnalysisView from "./component/analysisComponent/AnalysisView";
+import SocialWork from "./pages/SocialWork";
+import PaginasUtiles from "./pages/PaginasUtiles";
+import Error404 from './pages/Error404';
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AnalyisisEdit from "./component/analysisComponent/AnalyisisEdit";
-import AnalysisView from "./component/analysisComponent/AnalysisView";
+
 
 function App() {
   return (
@@ -15,6 +19,7 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
+
           <Router exact path="/">
             <Patients />
           </Router>
@@ -41,6 +46,14 @@ function App() {
 
           <Router exact path="/patients/:pathName/analysis/:id/view">
             <AnalysisView />
+          </Router>
+
+          <Router exact path="/socialwork">
+            <SocialWork/>
+          </Router>
+
+          <Router exact path="/paginasutiles">
+            <PaginasUtiles/>
           </Router>
 
           {/* <Router exact path="*">

@@ -5,9 +5,8 @@ import { get, remove } from "../../services/apiService";
 import Loading from "../loader/Loading";
 
 export default function Patients() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [patientFound, setPatientFound] = useState();
-
   useEffect(() => {
     getPatients();
   }, []);
@@ -36,12 +35,14 @@ export default function Patients() {
     let patientFoundInData = data.filter((patient) => {
       if (
         patient.dni === parseInt(valor) ||
-        patient.lastName.includes(valor.toUpperCase())
+        patient.lastName.includes(valor?.toUpperCase())
       ) {
         return patient;
       }
-      return "Error";
     });
+    if(patientFoundInData.length === 0){
+      return window.alert(`No hay pacientes con ${valor}`)
+    }
     return setData(patientFoundInData);
   };
 
@@ -51,7 +52,6 @@ export default function Patients() {
       getPatients();
     }
   };
-
   return (
     <div>
       {!data ? (

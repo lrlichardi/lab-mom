@@ -8,6 +8,7 @@ export default function Loading(){
    <div>
     <div className=" center-loader ">
     <RotatingLines width="100" />
+    <h1>Cargando</h1>
     </div>
    </div>
   );

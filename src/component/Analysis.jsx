@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation , useHistory , useParams , Link} from "react-router-dom";
 import { Form, Alert, Button, FloatingLabel } from "react-bootstrap";
-import Hemoglobina from "./analysisComponent/Hemoglobina";
+import Hemograma_475 from "./analysisComponent/CodeAnalysis/Hemograma_475";
 import Quimica from "./analysisComponent/Quimica";
 import Orina from "./analysisComponent/Orina";
 import { post } from "../services/apiService";
@@ -86,9 +86,9 @@ export default function Analysis() {
             className=""
           >
             <option>Seleccione El Tipo de Analisis</option>
-            <option value="hemoglobina">HEMOGLOBINA</option>
-            <option value="quimica">QUIMICA</option>
-            <option value="orina">ORINA</option>
+            <option value="475-Hemograma">475-Hemograma</option>
+            <option value="474-Hemograma">474-Hemograma</option>
+            <option value="477-Hemograma">477-Hemograma</option>
           </Form.Select>
 
           <FloatingLabel
@@ -127,8 +127,8 @@ export default function Analysis() {
       </div>
       <div>
         {alertSuccess && <Alert variant="success">{alertSuccess}</Alert>}
-        {select === "hemoglobina" ? (
-          <Hemoglobina
+        {select === "475-Hemograma" ? (
+          <Hemograma_475
             setAnalysisState={setAnalysisState}
             analysisState={analysisState}
             setAlertSuccess={setAlertSuccess}

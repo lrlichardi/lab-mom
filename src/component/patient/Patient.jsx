@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Form, Row, Modal, Button, Alert } from "react-bootstrap";
+import { Modal, Button, Alert } from "react-bootstrap";
 import PatientEdit from "./PatientEdit";
 import TableAnalysis from "../analysisComponent/TableAnalysis";
 import DataPatient from "../DataPatient";

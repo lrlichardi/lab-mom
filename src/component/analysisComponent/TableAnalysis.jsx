@@ -8,7 +8,6 @@ export default function TableAnalysis({ allAnalysis, patientId , setAlert , setA
 
 
   const deleteAnalysis = async (id) => {
-    console.log(id)
     if (window.confirm('Seguro que desea eliminar')){
     try {
       const { data, error } = await remove(

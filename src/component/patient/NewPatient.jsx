@@ -1,14 +1,40 @@
-import React from "react";
+import React , { useState , useEffect }  from "react";
 import { useHistory } from "react-router-dom";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
-import { useState } from "react";
 import { post } from "../../services/apiService";
+import {
+  newSocialWork,
+  getSocialWork,
+} from "../../socialWork/functionSocialWork";
 
 export default function NewPatient() {
   const [input, setInput] = useState();
+  const [socialWork, setSocialWork] = useState();
   const [alert, setAlert] = useState();
 
   let history = useHistory();
+
+  useEffect(() => {
+    functionGetSocialWork();
+    setTimeout(() => {
+      setAlert("");
+    }, 8000);
+  }, []);
+
+  const functionGetSocialWork = async () => {
+    const data = await getSocialWork();
+    setSocialWork(data);
+  };
+
+  const functionNewSocialWork = async () => {
+    const inputSocialWork = window.prompt("Ingrese la nueva Obra Social");
+
+    if(inputSocialWork){
+      const response = await newSocialWork(inputSocialWork)
+      console.log(response)
+      functionGetSocialWork()
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,13 +42,12 @@ export default function NewPatient() {
     try {
       const { error } = await post("/patients", input);
 
-        if(error){
+      if (error) {
         return setAlert(error.response.data.msg);
       }
 
       form.reset();
       history.push("/patients");
-
     } catch (error) {
       setAlert(error?.response.data?.msg);
     }
@@ -30,9 +55,8 @@ export default function NewPatient() {
     setTimeout(() => {
       setAlert("");
     }, 5000);
-
   };
- console.log(input)
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     const inputs = { ...input, [name]: value.toUpperCase() };
@@ -176,45 +200,41 @@ export default function NewPatient() {
               />
             </Col>
           </Form.Group>
+          <Row>
+          <Form.Group as={Col} className="" controlId="formPlaintextPassword">
+              <Form.Select
+                className="mb-4"
+                required
+                name="sex"
+                aria-label="sex"
+                onChange={(e) => handleChange(e)}
+              >
+                <option>Sexo</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+              </Form.Select>
+            </Form.Group>
+            </Row>
 
-          <Row className="mb-3">
-          <Form.Group
-            as={Col}
-            className=""
-            controlId="formPlaintextPassword"
-          >
-          <Form.Select
-            className="mb-4"
-            required
-            name="obraSocial"
-            aria-label="Obra Social"
-            onChange={(e) => handleChange(e)}
-          >
-            <option value="N/A">Obra Social</option>
-            <option value="Boreal">Boreal</option>
-            <option value="Galeno">Galeno</option>
-            <option value="Subsidio">Subsidio</option>
-          </Form.Select>
-          </Form.Group>
-
-          <Form.Group
-            as={Col}
-            className=""
-            controlId="formPlaintextPassword"
-          >
-          <Form.Select
-            className="mb-4"
-            required
-            name="sex"
-            aria-label="sex"
-            onChange={(e) => handleChange(e)}
-          >
-            <option value="N/A">Sexo</option>
-            <option value="masculino">Masculino</option>
-            <option value="femenino">Femenino</option>
-          </Form.Select>
-          </Form.Group>
-          </Row>
+          <div className="mb-3 d-flex">
+            <Form.Group as={Col} className="me-5" controlId="formPlaintextPassword">
+              <Form.Select
+                className="mb-4"
+                required
+                name="obraSocial"
+                aria-label="Obra Social"
+                onChange={(e) => handleChange(e)}
+              >
+                <option>Obra Social</option>
+                {socialWork?.map(({obrasocial} , index) => (
+                  <option key={index} value={obrasocial}>{obrasocial}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+            <div>
+            <Button onClick={() => functionNewSocialWork()} variant='success'>Agregar Nueva Obra Social</Button>
+            </div>
+          </div>
 
           <Button variant="primary" type="submit">
             Agregar Paciente

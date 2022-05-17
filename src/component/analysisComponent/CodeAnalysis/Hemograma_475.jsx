@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Form, FloatingLabel, Button, Col, Row } from "react-bootstrap";
-import "../../css/hemoglobina.css";
+import "../../../css/Hemograma_475.css";
 
-export default function Hemoglobina({
+export default function Hemograma_475({
   setAnalysisState,
   setAlertSuccess,
   setSelect,
@@ -201,48 +201,6 @@ console.log(input)
               </FloatingLabel>
             </Col>
 
-            <Col xs={2} className="border border-dark contentHemo">
-              <h3>Eritrosedimentación</h3>
-              <h5>Método Westergren</h5>
-              <FloatingLabel
-                controlId="floatingInput"
-                label="1 Hora:"
-                className="mb-3"
-              >
-                <Form.Control
-                  name="onehs"
-                  type="number"
-                  placeholder="1 Hora:"
-                  onChange={(e) => handleChange(e)}
-                />
-              </FloatingLabel>
-
-              <FloatingLabel
-                controlId="floatingInput"
-                label="2 Hora:"
-                className="mb-3"
-              >
-                <Form.Control
-                  name="twohs"
-                  type="number"
-                  placeholder="2 Hora:"
-                  onChange={(e) => handleChange(e)}
-                />
-              </FloatingLabel>
-
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Indice de Katz:"
-                className="mb-3"
-              >
-                <Form.Control
-                  name="indiceKatz"
-                  type="number"
-                  placeholder="Indice de Katz:"
-                  onChange={(e) => handleChange(e)}
-                />
-              </FloatingLabel>
-            </Col>
           </Row>
 
           <Button variant="primary" type="submit" className='w-25 mt-2'>
